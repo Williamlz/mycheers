@@ -82,8 +82,8 @@ export default {
   methods: {
     //登录方法 再次校验-------------------------------
     login() {
-      alert(this.loginForm.username)
-      alert(this.loginForm.password)
+      //alert(this.loginForm.username)
+      //alert(this.loginForm.password)
       //将名字存储在vue自带的存储空间中
       //数据库中存储对应的id
       //localStorage.setItem("userId", res.data.data.id);
@@ -113,8 +113,19 @@ export default {
     },
     //添加表单重置方法
     sign_up() {
-      //this.$refs.LoginFormRef.resetFields();
-    },
+        this.$alert('您已经成功确认，请开始您的旅程', '提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            localStorage.setItem("username", this.loginForm.username);
+            this.$router.push("/home");
+            // this.$message({
+            //   type: 'info',
+            //   message: `action: ${ action }`
+            // });
+          }
+        });
+      
+      }
   },
 };
 </script>
