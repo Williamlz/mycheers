@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <el-row :gutter="15">
+  <div class="container">
+    <el-row :gutter="15" style="top:10px">
       <el-col :span="4"><div class="grid-content"></div></el-col>
       <el-col :span="7"
-        ><div class="grid-content" >
+        ><div class="grid-content">
           <el-menu
-            :default-active="activeIndex"
+            :default-active="$route.path"
+            router
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
           >
-            <el-menu-item index="1" @click="go_home">首页</el-menu-item>
-            <el-menu-item index="2" @click="go_novel">小说中心</el-menu-item>
-            <el-menu-item index="3" @click="go_game">游戏专区</el-menu-item>
-            <el-menu-item index="4" @click="go_answer">等你来答</el-menu-item>
+            <el-menu-item
+              v-for="(item, i) in navList"
+              :key="i"
+              :index="item.name"
+            >
+              {{ item.navItem }}
+            </el-menu-item>
           </el-menu>
         </div></el-col
       >
@@ -33,14 +37,14 @@
       ></el-col>
       <el-col :span="5"
         ><div class="grid-content">
-          <el-badge :value="10" class="item">
+          <el-badge :value="10" class="badge_item">
             <el-button size="medium">评论</el-button>
           </el-badge>
-          <el-badge :value="5" class="item">
-            <el-button size="medium">回复</el-button>
+          <el-badge :value="5" class="badge_item">
+            <el-button size="medium">信息</el-button>
           </el-badge>
           <el-dropdown trigger="click" style="top:8px">
-            <span class="el-dropdown-link" >
+            <span class="el-dropdown-link">
               点我查看<i class="el-icon-caret-bottom el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -51,12 +55,26 @@
                 <el-button type="text">设置</el-button>
               </el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown></div
-      ></el-col>
+          </el-dropdown>
+        </div></el-col
+      >
     </el-row>
-    <el-container>
-      <el-aside width="200px">Aside</el-aside>
-      <el-main>Main</el-main>
+    <el-container style="margin:auto; width:92%;">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+             卡片名称
+              
+            </div>
+            <div  class="text item">
+               "列表内容"  
+            </div>
+            <el-button style="float: right; padding: 3px 0" type="text"
+                >操作按钮</el-button
+              >
+          </el-card>
+      <el-main>
+        
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -67,29 +85,55 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      search_input: ""
+      search_input: "",
+      navList: [
+        { name: "/home", navItem: "首页" },
+        { name: "/novel/novel_home", navItem: "小说专区" },
+        { name: "/game/game_home", navItem: "游戏专区" },
+        { name: "/wait_answer", navItem: "等你来答" }
+      ],
+      
     };
   },
   created: function() {},
   methods: {
+    bold(number) {
+      for (var i = 0; i < this.items.length; i++) {
+        this.items[i] = false;
+      }
+      this.items[number] = true;
+    },
+    // go_home(event) {
+    //   this.$router.push("/home");
+    // },
+    // go_novel(event) {
+    //   this.$router.push("/novel/novel_home.vue");
+    // },
+    // go_game(event) {
+    //   this.$router.push("/game/game_home");
+    // },
+    // go_answer(event) {},
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-    },
-    go_home: {},
-    go_novel: {},
-    go_game: {},
-    go_answer: {},
+    }
   },
-  
+
   mounted() {
     this.username = localStorage.getItem("username");
-    document.body.style.backgroundColor="rgb(202, 201, 201)";
+    document.body.style.backgroundColor = "rgb(202, 201, 201)";
+    document.body.style.margin = "0";
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.container {
+  margin: 0%;
+  border: 0;
+  background: white;
+  height: 70px;
+}
 .el-header {
   background-color: #b3c0d1;
   color: #333;
@@ -135,8 +179,28 @@ export default {
   padding: 10px 0;
   background-color: #f9fafc;
 }
-.item {
+.badge_item {
   margin-top: 11px;
   margin-right: 12px;
 }
+.text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 480px;
+  }
 </style>

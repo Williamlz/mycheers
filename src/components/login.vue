@@ -15,7 +15,7 @@
       >
         <el-form-item prop="username">
           <el-input
-            placeholder="请输入用户名"
+            placeholder="请输入邮箱"
             v-model="loginForm.username"
             prefix-icon="el-icon-user"
           >
